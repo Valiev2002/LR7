@@ -1,0 +1,94 @@
+#include <iostream>
+using namespace std;
+struct Stack_cell
+{
+    Stack_cell* s_next = nullptr;
+    int value = 5;
+};
+
+struct Stack
+{
+    Stack_cell* s_begin;
+    Stack_cell* s_end;
+};
+
+void constructor_s(Stack& s)
+{
+    s.s_begin = nullptr;
+    s.s_end = nullptr;
+}
+
+void push_s(Stack& s, Stack_cell& n)
+{
+
+    if ( s.s_begin == nullptr) {
+        Stack_cell* newS_e = new Stack_cell;
+        newS_e->value = n.value;
+        s.s_begin = newS_e;
+        s.s_end = newS_e;
+    } else if (s.s_begin != nullptr) {
+        Stack_cell*newS_e = new Stack_cell;
+        newS_e->value = n.value;
+        s.s_end->s_next = newS_e;
+        s.s_end = newS_e;
+    }
+
+}
+
+Stack_cell pop_s(Stack&s)
+{
+    int a =s.s_begin->value;
+    Stack_cell rez;
+    Stack_cell* tmp = new Stack_cell;
+    tmp = s.s_begin;
+    s.s_begin = s.s_begin->s_next;
+    delete tmp;
+    rez.value = a;
+    rez.s_next = s.s_begin;
+    return rez;
+}
+
+unsigned int size_s(Stack&s)
+{
+    Stack_cell* current = new Stack_cell;
+    current = s.s_begin;
+    unsigned int counter = 0;
+    while (current != nullptr) {
+        counter++;
+        current = current->s_next;
+    }
+    return counter;
+}
+
+void destructor_s(Stack&s)
+{
+    while (s.s_begin != nullptr) {
+        Stack_cell* tmp = new Stack_cell;
+        tmp = s.s_begin;
+        s.s_begin = s.s_begin->s_next;
+        delete tmp;
+    }
+}
+
+
+int main() {
+    Stack stack_0;
+    constructor_s(stack_0);
+    Stack_cell current_element;
+    int v;
+    for (int i = 0; i < 5; ++i) {
+        cin >> v;
+        current_element.value = v;
+        push_s(stack_0, current_element);
+    }
+    cout << "there is " << size_s(stack_0) << " in stack." << endl;
+    current_element = pop_s(stack_0);
+    cout << "Please, take the first element from the stack. It is that" << current_element.value << endl;
+    current_element = pop_s(stack_0);
+    cout << "Please, take the first element from the stack. It is that " << current_element.value << endl;
+    current_element = pop_s(stack_0);
+    cout << "Please, take the first element from the stack. It is that  " << current_element.value << endl;
+    cout << "there is " << size_s(stack_0) << " in the stack." << endl;
+    destructor_s(stack_0);
+    return 0;
+}
