@@ -78,7 +78,7 @@ int main()
     Queue_cell current_element;
     int v;
     for (int i = 0; i < 5; ++i) {
-        std::cin >> v;
+       cin >> v;
         current_element.value = v;
         push_q(queue_0, current_element);
     }
