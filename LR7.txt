@@ -1,0 +1,95 @@
+#include <iostream>
+using namespace std;
+struct Queue_cell
+{
+    Queue_cell* q_next = nullptr;
+    int value = 5;
+};
+
+struct Queue
+{
+    Queue_cell* q_begin;
+    Queue_cell* q_end;
+};
+
+void constructor_q(Queue& q)
+{
+    q.q_begin = nullptr;
+    q.q_end = nullptr;
+}
+
+void push_q(Queue& q, Queue_cell& n)
+{
+
+    if (q.q_begin == nullptr) {
+        Queue_cell* newQ_e = new Queue_cell;
+        newQ_e->value = n.value;
+        q.q_begin = newQ_e;
+        q.q_end = newQ_e;
+    } else if (q.q_begin != nullptr) {
+        Queue_cell* newQ_e = new Queue_cell;
+        newQ_e->value = n.value;
+        q.q_end->q_next = newQ_e;
+        q.q_end = newQ_e;
+    }
+
+}
+
+Queue_cell pop_q(Queue& q)
+{
+    int a = q.q_begin->value;
+    Queue_cell rez;
+    Queue_cell* tmp = new Queue_cell;
+    tmp = q.q_begin;
+    q.q_begin = q.q_begin->q_next;
+    delete tmp;
+    rez.value = a;
+    rez.q_next = q.q_begin;
+    return rez;
+}
+
+unsigned int size_q(Queue& q)
+{
+    Queue_cell* current = new Queue_cell;
+    current = q.q_begin;
+    unsigned int counter = 0;
+    while (current != nullptr) {
+        counter++;
+        current = current->q_next;
+    }
+    return counter;
+}
+
+void destructor_q(Queue& q)
+{
+    while (q.q_begin != nullptr) {
+        Queue_cell* tmp = new Queue_cell;
+        tmp = q.q_begin;
+        q.q_begin = q.q_begin->q_next;
+        delete tmp;
+    }
+}
+
+
+int main()
+{
+    Queue queue_0;
+    constructor_q(queue_0);
+    Queue_cell current_element;
+    int v;
+    for (int i = 0; i < 5; ++i) {
+        std::cin >> v;
+        current_element.value = v;
+        push_q(queue_0, current_element);
+    }
+  cout << "there is " << size_q(queue_0) << " in queue." << endl;
+    current_element = pop_q(queue_0);
+  cout << "Please, take the first element from the queue. It is that" << current_element.value << endl;
+    current_element = pop_q(queue_0);
+   cout << "Please, take the first element from the queue. It is that " << current_element.value << endl;
+    current_element = pop_q(queue_0);
+    cout << "Please, take the first element from the queue. It is that  " << current_element.value << endl;
+    cout << "there is " << size_q(queue_0) << " in the queue." << endl;
+    destructor_q(queue_0);
+    return 0;
+}
